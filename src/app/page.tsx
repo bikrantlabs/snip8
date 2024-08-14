@@ -1,4 +1,5 @@
 import { Controls } from "@/components/controls/controls"
+import { CodeBox } from "@/components/editor/code-box"
 import { Editor } from "@/components/editor/editor"
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
         </div>
         <div className="col-span-5">
           {/* <Editor /> */}
-          Preview Component
+          <CodeBox />
         </div>
       </div>
     </main>

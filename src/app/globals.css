@@ -32,7 +32,7 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 240 6% 10%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -66,13 +66,18 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* .code-line {
-    background: #96c39162;
-  }
-  .demo123 {
-    background-color: antiquewhite;
-  } */
+
   .highlight-line {
+    background-color: hsla(204, 100%, 45%, 0.3);
+  }
+  pre {
+    overflow: hidden;
+  }
+  .line {
+  }
+  .highlighted-word {
+    display: inline-block;
+    width: calc(100% + 16px);
     background-color: hsla(204, 100%, 45%, 0.3);
   }
 }

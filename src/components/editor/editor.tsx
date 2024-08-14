@@ -1,33 +1,33 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { codeToHast } from "shiki"
-import { HastNode } from "@/types/hast-node"
+import useStore from "@/store/useStore"
 import { formatCode } from "@/lib/format-code"
-import { Button } from "../ui/button"
+import { useRenderCode } from "@/lib/render-code"
+import { Kbd } from "../ui/kdb"
 import { Textarea } from "../ui/textarea"
-import { CodeRenderer } from "./code-renderer"
 
 export const Editor: React.FC = () => {
-  const [initialCode, setInitialCode] = useState<string>("")
-  const [hast, setHast] = useState<HastNode>()
-  const [error, setError] = useState<string>("")
+  const [initialCode, setInitialCode] =
+    useState<string>(`const useStore = create<StoreState>((set) => ({
+  formattedCode: undefined,
+  setFormattedCode: (code) => set({ formattedCode: code }),
+}))
+`)
+  const { setFormattedCode } = useStore((state) => state)
+  const { error, renderCode } = useRenderCode()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const startHighlight = async () => {
-    const reponse = await formatCode(initialCode)
-    if (!reponse.success) {
-      setError(reponse.errorMessage || "An error occurred")
+    const response = await formatCode(initialCode)
+    if (!response.success) {
+      // setError(response.errorMessage || "An error occurred")
+      console.log(`🔥 editor.tsx:34 ~ SomeError ~`)
     }
-    const root = await codeToHast(reponse.formattedCode || initialCode, {
-      lang: "javascript",
-      theme: "andromeeda",
-    })
 
-    setHast(root.children[0] as unknown as HastNode)
-    // const highlightedHtml = addLineHighlights(html, [1, 2, 3])
+    const node = await renderCode(response.formattedCode || initialCode)
+    if (node) setFormattedCode(node)
   }
-
   return (
     <div className="">
       <Textarea
@@ -42,15 +42,13 @@ export const Editor: React.FC = () => {
           }
         }}
         placeholder="Type your code here..."
-        className="min-h-96 resize-none"
+        className="min-h-96 resize-none font-mono"
       />
-      {error && <div className="text-red-500">{error}</div>}
-      <Button onClick={startHighlight}>Start</Button>
-      {hast && (
-        <div className="w-full overflow-auto">
-          <CodeRenderer node={hast} />
-        </div>
-      )}
+      <p className="mt-4">
+        Press <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd> to format and highlight the
+        code.
+      </p>
+      {error && <div className="text-red-500">{error.message}</div>}
     </div>
   )
 }

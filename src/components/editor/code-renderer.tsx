@@ -12,13 +12,16 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({ node }) => {
   if (node.type === "text" && node.value) {
     return <>{node.value}</>
   }
+  if (node.children.length === 0) {
+    return null
+  }
 
   // If the node is an element, render it recursively
   if (node.type === "element" && node.tagName) {
     const TagName = node.tagName as keyof JSX.IntrinsicElements
     let preTagStyles = ""
     if (node.tagName === "pre") {
-      preTagStyles = "p-2 rounded"
+      preTagStyles = "p-2 rounded whitespace-pre-wrap break-words"
     }
     // Convert style string to a CSSProperties object
     const styles = parseStyleString(node.properties.style)
