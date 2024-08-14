@@ -1,25 +1,15 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet"
+import { Label } from "../ui/label"
+import { LanguageSelector } from "./language-selector"
 
 export const Controls = () => {
   return (
-    <Sheet>
-      <SheetTrigger>Controls</SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
+    <div className="min-h-96 w-full rounded border border-black shadow">
+      <div className="flex flex-col items-center p-2">
+        <div className="space-y-1">
+          <Label>Language:</Label>
+          <LanguageSelector />
+        </div>
+      </div>
+    </div>
   )
 }
