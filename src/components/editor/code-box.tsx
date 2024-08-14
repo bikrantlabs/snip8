@@ -21,7 +21,7 @@ export const CodeBox = () => {
       {formattedCode ? (
         <div>
           <div
-            className={cn("h-full max-h-[85vh] overflow-auto")}
+            className={cn("h-full max-h-[80vh] overflow-auto")}
             style={{ backgroundColor }}
           >
             <CodeRenderer

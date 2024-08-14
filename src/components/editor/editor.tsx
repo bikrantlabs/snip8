@@ -77,7 +77,7 @@ interface CodeRendererProps {
         Press <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd> or hit play button to format
         and highlight the code.
       </p>
-      {error && <div className="text-red-500">{error.message}</div>}
+      {error && <p className="text-sm text-red-500">{error.message}</p>}
     </div>
   )
 }

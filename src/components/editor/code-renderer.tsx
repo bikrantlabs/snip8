@@ -1,3 +1,4 @@
+import { error } from "console"
 import React, { useCallback, useEffect, useState } from "react"
 import { HastNode } from "@/types/hast-node"
 import { parseStyleString } from "@/lib/parse-styles"
@@ -14,7 +15,13 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({
   lineNumber,
   setBackgroundColor,
 }) => {
-  const [numbers, setNumbers] = useState<number[]>([])
+  const [highlightedLines, setHighlightedLines] = useState<number[]>([])
+  const [errorHighlightedLines, setErrorHighlightedLines] = useState<number[]>(
+    []
+  )
+  const [successHighlightedLines, setSuccessHighlightedLines] = useState<
+    number[]
+  >([])
   // Base Case: If the node is a text node, render its value
   if (node.type === "text" && node.value) {
     return <>{node.value}</>
@@ -29,15 +36,50 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({
 
     if (node.properties.class?.includes("line")) {
       console.log(`🔥 code-renderer.tsx:32 ~ Found Line ~`)
-      if (numbers.includes(currentLineNumber)) {
+      if (highlightedLines.includes(currentLineNumber)) {
       }
       lineNumberElement = (
         <span
-          onClick={() => {
-            if (numbers.includes(currentLineNumber)) {
-              setNumbers(numbers.filter((num) => num !== currentLineNumber))
+          onClick={(e) => {
+            if (e.ctrlKey && e.shiftKey) {
+              console.log(`🔥 code-renderer.tsx:45 ~ CTRL + SHIFT ~`)
+              if (successHighlightedLines.includes(currentLineNumber)) {
+                setSuccessHighlightedLines(
+                  successHighlightedLines.filter(
+                    (num) => num !== currentLineNumber
+                  )
+                )
+              } else {
+                setSuccessHighlightedLines([
+                  ...successHighlightedLines,
+                  currentLineNumber,
+                ])
+              }
+              return
+            }
+            if (e.ctrlKey && !e.shiftKey) {
+              console.log(`🔥 code-renderer.tsx:60 ~ CTRL ONLY ~`)
+              if (errorHighlightedLines.includes(currentLineNumber)) {
+                setErrorHighlightedLines(
+                  errorHighlightedLines.filter(
+                    (num) => num !== currentLineNumber
+                  )
+                )
+              } else {
+                setErrorHighlightedLines([
+                  ...errorHighlightedLines,
+                  currentLineNumber,
+                ])
+              }
+              return
+            }
+
+            if (highlightedLines.includes(currentLineNumber)) {
+              setHighlightedLines(
+                highlightedLines.filter((num) => num !== currentLineNumber)
+              )
             } else {
-              setNumbers([...numbers, currentLineNumber])
+              setHighlightedLines([...highlightedLines, currentLineNumber])
             }
           }}
           style={{ color: "#888", marginRight: "1rem", userSelect: "none" }}
@@ -65,9 +107,18 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({
         className={cn(
           node.properties.class,
           preTagStyles,
-          numbers.includes(currentLineNumber) &&
+          highlightedLines.includes(currentLineNumber) &&
             node.properties?.class?.includes("line")
             ? "highlighted"
+            : "",
+
+          errorHighlightedLines.includes(currentLineNumber) &&
+            node.properties?.class?.includes("line")
+            ? "error-highlighted"
+            : "",
+          successHighlightedLines.includes(currentLineNumber) &&
+            node.properties?.class?.includes("line")
+            ? "success-highlighted"
             : ""
         )}
         tabIndex={node.properties.tabIndex}

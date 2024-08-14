@@ -73,10 +73,17 @@
   .pre {
     overflow: hidden;
   }
-  .highlighted {
+  .line.highlighted {
     display: inline-block;
-    /* width: calc(100% + 16px); */
     background-color: hsla(204, 100%, 45%, 0.3);
+  }
+  .line.error-highlighted {
+    display: inline-block;
+    background-color: hsla(26, 100%, 45%, 0.3);
+  }
+  .line.success-highlighted {
+    display: inline-block;
+    background-color: hsla(126, 100%, 45%, 0.3);
   }
   /* width */
   ::-webkit-scrollbar {
