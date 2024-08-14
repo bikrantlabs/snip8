@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import useStore from "@/store/use-code-store"
 import { useControlsStore } from "@/store/use-controls-store"
-import useStore from "@/store/useStore"
+import { PlayIcon } from "@radix-ui/react-icons"
 import { formatCode } from "@/lib/format-code"
 import { useRenderCode } from "@/lib/render-code"
+import { Button } from "../ui/button"
 import { Kbd } from "../ui/kdb"
 import { Textarea } from "../ui/textarea"
 
@@ -45,24 +47,35 @@ interface CodeRendererProps {
     controls.theme,
   ])
   return (
-    <div className="">
-      <Textarea
-        ref={textareaRef}
-        value={initialCode}
-        onChange={(e) => {
-          setInitialCode(e.target.value)
-        }}
-        onKeyDown={(e) => {
-          if (e.ctrlKey && e.key == "Enter") {
+    <div className="h-full">
+      <div className="relative h-full">
+        <Textarea
+          ref={textareaRef}
+          value={initialCode}
+          onChange={(e) => {
+            setInitialCode(e.target.value)
+          }}
+          onKeyDown={(e) => {
+            if (e.ctrlKey && e.key == "Enter") {
+              formatAndRenderCode()
+            }
+          }}
+          placeholder="Type your code here..."
+          className="h-full resize-none font-mono"
+        />
+        <Button
+          className="absolute bottom-0 right-0 mb-2 mr-4 shadow-lg"
+          size="icon"
+          onClick={() => {
             formatAndRenderCode()
-          }
-        }}
-        placeholder="Type your code here..."
-        className="min-h-96 resize-none font-mono"
-      />
-      <p className="mt-4">
-        Press <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd> to format and highlight the
-        code.
+          }}
+        >
+          <PlayIcon className="h-4 w-4" />
+        </Button>
+      </div>
+      <p className="mt-4 text-sm">
+        Press <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd> or hit play button to format
+        and highlight the code.
       </p>
       {error && <div className="text-red-500">{error.message}</div>}
     </div>

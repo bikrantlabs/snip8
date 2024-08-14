@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useControlsStore } from "@/store/use-controls-store"
-import { CheckIcon, ChevronUpIcon } from "@radix-ui/react-icons"
+import { CheckIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 import { BundledTheme } from "shiki"
 import { getThemes } from "@/lib/get-themes"
 import { cn } from "@/lib/utils"
@@ -37,8 +37,13 @@ export function ThemeSelector() {
         >
           {value
             ? themes.find((theme) => theme.value === value)?.label
-            : "Select language..."}
-          <ChevronUpIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            : "Select theme..."}
+          <ChevronDownIcon
+            className={cn(
+              "ml-2 h-4 w-4 shrink-0 opacity-50 transition",
+              open ? "rotate-180" : "rotate-0"
+            )}
+          />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">

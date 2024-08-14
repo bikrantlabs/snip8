@@ -1,18 +1,36 @@
 "use client"
 
-import { useState } from "react"
-import useStore from "@/store/useStore"
+import { useCallback, useState } from "react"
+import useStore from "@/store/use-code-store"
+import { cn } from "@/lib/utils"
 import { CodeRenderer } from "./code-renderer"
 
 export const CodeBox = () => {
   const [lineNumber] = useState<number>(1)
-  const { formattedCode } = useStore((state) => state)
+  const { formattedCode, setBackgroundColor, backgroundColor } = useStore(
+    (state) => state
+  )
+  const handleSetBackgroundColor = useCallback(
+    (color: string) => {
+      setBackgroundColor(color)
+    },
+    [setBackgroundColor]
+  )
   return (
     <>
       {formattedCode ? (
-        <CodeRenderer node={formattedCode} lineNumber={lineNumber} />
+        <div
+          className={cn("h-full max-h-[85vh] overflow-auto")}
+          style={{ backgroundColor }}
+        >
+          <CodeRenderer
+            setBackgroundColor={handleSetBackgroundColor}
+            node={formattedCode}
+            lineNumber={lineNumber}
+          />
+        </div>
       ) : (
-        <div className="min-h-96 w-full rounded border border-black shadow"></div>
+        <div className="w-full rounded border border-black shadow"></div>
       )}
     </>
   )

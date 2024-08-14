@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { useControlsStore } from "@/store/use-controls-store"
-import { CheckIcon, ChevronUpIcon } from "@radix-ui/react-icons"
+import { CheckIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 import { BundledLanguage } from "shiki"
 import { getLanguages } from "@/lib/get-languages"
 import { cn } from "@/lib/utils"
@@ -38,7 +38,12 @@ export function LanguageSelector() {
           {value
             ? languages.find((language) => language.value === value)?.label
             : "Select language..."}
-          <ChevronUpIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronDownIcon
+            className={cn(
+              "ml-2 h-4 w-4 shrink-0 opacity-50 transition",
+              open ? "rotate-180" : "rotate-0"
+            )}
+          />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
