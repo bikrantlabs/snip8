@@ -33,6 +33,7 @@ export const useRenderCode = () => {
             transformerNotationWordHighlight(),
           ],
         })
+        console.log(`🔥 render-code.ts:36 ~ Data: ~`, root)
         return root.children[0] as HastNode
       } catch (err) {
         setError(err as Error)

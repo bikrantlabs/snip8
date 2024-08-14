@@ -9,10 +9,15 @@ import { Textarea } from "../ui/textarea"
 
 export const Editor: React.FC = () => {
   const [initialCode, setInitialCode] =
-    useState<string>(`const useStore = create<StoreState>((set) => ({
-  formattedCode: undefined,
-  setFormattedCode: (code) => set({ formattedCode: code }),
-}))
+    useState<string>(`import React from "react"
+import { HastNode } from "@/types/hast-node"
+import { parseStyleString } from "@/lib/parse-styles"
+import { cn } from "@/lib/utils"
+
+interface CodeRendererProps {
+  node: HastNode
+  lineNumber: number
+}
 `)
   const { setFormattedCode } = useStore((state) => state)
   const { error, renderCode } = useRenderCode()
