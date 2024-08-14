@@ -21,13 +21,6 @@ export const useRenderCode = () => {
         const root = await codeToHast(code, {
           lang: controls?.lang,
           theme: controls.theme,
-          decorations: [
-            {
-              start: controls.startHighlight,
-              end: controls.endHighlight,
-              properties: { class: "highlighted" },
-            },
-          ],
           transformers: [
             transformerNotationDiff(),
             transformerNotationHighlight(),

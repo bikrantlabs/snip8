@@ -17,21 +17,26 @@ export const CodeBox = () => {
     [setBackgroundColor]
   )
   return (
-    <>
+    <div>
       {formattedCode ? (
-        <div
-          className={cn("h-full max-h-[85vh] overflow-auto")}
-          style={{ backgroundColor }}
-        >
-          <CodeRenderer
-            setBackgroundColor={handleSetBackgroundColor}
-            node={formattedCode}
-            lineNumber={lineNumber}
-          />
+        <div>
+          <div
+            className={cn("h-full max-h-[85vh] overflow-auto")}
+            style={{ backgroundColor }}
+          >
+            <CodeRenderer
+              setBackgroundColor={handleSetBackgroundColor}
+              node={formattedCode}
+              lineNumber={lineNumber}
+            />
+          </div>
+          <p className="mt-4 text-sm">
+            Click on line numbers for line highlighting
+          </p>
         </div>
       ) : (
         <div className="w-full rounded border border-black shadow"></div>
       )}
-    </>
+    </div>
   )
 }

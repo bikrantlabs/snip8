@@ -4,7 +4,7 @@ import { ThemeSelector } from "./theme-selector"
 
 export const Controls = () => {
   return (
-    <div className="min-h-[85vh] w-full rounded border border-black shadow">
+    <div className="min-h-[80vh] w-full rounded border border-black shadow">
       <div className="flex flex-col items-center gap-4 p-2">
         <div className="space-y-1">
           <Label>Language:</Label>

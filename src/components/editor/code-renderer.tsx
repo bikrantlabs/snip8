@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { HastNode } from "@/types/hast-node"
 import { parseStyleString } from "@/lib/parse-styles"
 import { cn } from "@/lib/utils"
@@ -14,6 +14,7 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({
   lineNumber,
   setBackgroundColor,
 }) => {
+  const [numbers, setNumbers] = useState<number[]>([])
   // Base Case: If the node is a text node, render its value
   if (node.type === "text" && node.value) {
     return <>{node.value}</>
@@ -28,9 +29,17 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({
 
     if (node.properties.class?.includes("line")) {
       console.log(`🔥 code-renderer.tsx:32 ~ Found Line ~`)
-
+      if (numbers.includes(currentLineNumber)) {
+      }
       lineNumberElement = (
         <span
+          onClick={() => {
+            if (numbers.includes(currentLineNumber)) {
+              setNumbers(numbers.filter((num) => num !== currentLineNumber))
+            } else {
+              setNumbers([...numbers, currentLineNumber])
+            }
+          }}
           style={{ color: "#888", marginRight: "1rem", userSelect: "none" }}
           className="line-number cursor-pointer"
         >
@@ -49,12 +58,18 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({
     if (node.tagName === "pre") {
       preTagStyles = "p-2 rounded overflow-x-auto shadow"
     }
-    // Convert style string to a CSSProperties object
 
     return (
       <TagName
         style={{ ...styles }}
-        className={cn(node.properties.class, preTagStyles)}
+        className={cn(
+          node.properties.class,
+          preTagStyles,
+          numbers.includes(currentLineNumber) &&
+            node.properties?.class?.includes("line")
+            ? "highlighted"
+            : ""
+        )}
         tabIndex={node.properties.tabIndex}
       >
         {lineNumberElement}
