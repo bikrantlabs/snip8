@@ -3,8 +3,8 @@
 import * as React from "react"
 import { useControlsStore } from "@/store/use-controls-store"
 import { CheckIcon, ChevronUpIcon } from "@radix-ui/react-icons"
-import { BundledLanguage } from "shiki"
-import { getLanguages } from "@/lib/get-languages"
+import { BundledTheme } from "shiki"
+import { getThemes } from "@/lib/get-themes"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -21,11 +21,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-const languages = getLanguages()
-export function LanguageSelector() {
+const themes = getThemes()
+export function ThemeSelector() {
   const { controls, setControls } = useControlsStore((state) => state)
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState<BundledLanguage>("javascript")
+  const [value, setValue] = React.useState<BundledTheme>("vesper")
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -36,7 +36,7 @@ export function LanguageSelector() {
           className="w-[200px] justify-between"
         >
           {value
-            ? languages.find((language) => language.value === value)?.label
+            ? themes.find((theme) => theme.value === value)?.label
             : "Select language..."}
           <ChevronUpIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -48,36 +48,35 @@ export function LanguageSelector() {
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
               <CommandItem
-                value={"javascript"}
+                value={"vesper"}
                 onSelect={(currentValue) => {
-                  const typedValue = currentValue as unknown as BundledLanguage
-                  setControls({ ...controls, lang: "javascript" })
-                  setValue("javascript")
+                  const typedValue = currentValue as unknown as BundledTheme
+                  setControls({ ...controls, theme: "vesper" })
+                  setValue("vesper")
                   setOpen(false)
                 }}
               >
                 <CheckIcon className={cn("mr-2 h-4 w-4", "opacity-0")} />
                 Default
               </CommandItem>
-              {languages.map((language) => (
+              {themes.map((theme) => (
                 <CommandItem
-                  key={language.value}
-                  value={language.value}
+                  key={theme.value}
+                  value={theme.value}
                   onSelect={(currentValue) => {
-                    const typedValue =
-                      currentValue as unknown as BundledLanguage
-                    setControls({ ...controls, lang: typedValue })
-                    setValue(typedValue === value ? "javascript" : typedValue)
+                    const typedValue = currentValue as unknown as BundledTheme
+                    setControls({ ...controls, theme: typedValue })
+                    setValue(typedValue === value ? "vesper" : typedValue)
                     setOpen(false)
                   }}
                 >
                   <CheckIcon
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === language.value ? "opacity-100" : "opacity-0"
+                      value === theme.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {language.label}
+                  {theme.label}
                 </CommandItem>
               ))}
             </CommandGroup>

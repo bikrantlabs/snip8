@@ -2,8 +2,8 @@ import { create } from "zustand"
 import { RenderCodeOptions } from "@/types/render-code-options"
 
 interface RenderCodeOptionsState {
-  options: RenderCodeOptions
-  setOptions: (options: Partial<RenderCodeOptions>) => void
+  controls: RenderCodeOptions
+  setControls: (options: Partial<RenderCodeOptions>) => void
 }
 
 const defaultOptions: RenderCodeOptions = {
@@ -13,12 +13,10 @@ const defaultOptions: RenderCodeOptions = {
   endHighlight: { line: 0, character: 0 },
 }
 
-export const useRenderCodeOptionsStore = create<RenderCodeOptionsState>(
-  (set) => ({
-    options: defaultOptions,
-    setOptions: (newOptions) =>
-      set((state) => ({
-        options: { ...state.options, ...newOptions },
-      })),
-  })
-)
+export const useControlsStore = create<RenderCodeOptionsState>((set) => ({
+  controls: defaultOptions,
+  setControls: (newOptions) =>
+    set((state) => ({
+      controls: { ...state.controls, ...newOptions },
+    })),
+}))

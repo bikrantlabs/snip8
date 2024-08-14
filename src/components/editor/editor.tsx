@@ -1,6 +1,7 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { useControlsStore } from "@/store/use-controls-store"
 import useStore from "@/store/useStore"
 import { formatCode } from "@/lib/format-code"
 import { useRenderCode } from "@/lib/render-code"
@@ -20,19 +21,29 @@ interface CodeRendererProps {
 }
 `)
   const { setFormattedCode } = useStore((state) => state)
+  const { controls } = useControlsStore((state) => state)
   const { error, renderCode } = useRenderCode()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const startHighlight = async () => {
+  const formatAndRenderCode = async () => {
     const response = await formatCode(initialCode)
     if (!response.success) {
       // setError(response.errorMessage || "An error occurred")
-      console.log(`🔥 editor.tsx:34 ~ SomeError ~`)
     }
 
     const node = await renderCode(response.formattedCode || initialCode)
     if (node) setFormattedCode(node)
   }
+  console.log(`🔥 editor.tsx:37 ~ Data: ~`)
+  useEffect(() => {
+    formatAndRenderCode()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    controls.endHighlight,
+    controls.lang,
+    controls.startHighlight,
+    controls.theme,
+  ])
   return (
     <div className="">
       <Textarea
@@ -43,7 +54,7 @@ interface CodeRendererProps {
         }}
         onKeyDown={(e) => {
           if (e.ctrlKey && e.key == "Enter") {
-            startHighlight()
+            formatAndRenderCode()
           }
         }}
         placeholder="Type your code here..."
