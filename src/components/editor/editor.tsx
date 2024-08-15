@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import useStore from "@/store/use-code-store"
+import { useCodeStore } from "@/store/use-code-store"
 import { useControlsStore } from "@/store/use-controls-store"
 import { PlayIcon } from "@radix-ui/react-icons"
 import { formatCode } from "@/lib/format-code"
@@ -22,7 +22,7 @@ interface CodeRendererProps {
   lineNumber: number
 }
 `)
-  const { setFormattedCode } = useStore((state) => state)
+  const { setFormattedCode } = useCodeStore((state) => state)
   const { controls } = useControlsStore((state) => state)
   const { error, renderCode } = useRenderCode()
   const textareaRef = useRef<HTMLTextAreaElement>(null)

@@ -1,13 +1,20 @@
 "use client"
 
 import { useCallback, useState } from "react"
-import useStore from "@/store/use-code-store"
+import { useCodeStore } from "@/store/use-code-store"
+import { useHighlightedLinesStore } from "@/store/use-highlighted-lines-store"
 import { cn } from "@/lib/utils"
 import { CodeRenderer } from "./code-renderer"
 
 export const CodeBox = () => {
   const [lineNumber] = useState<number>(1)
-  const { formattedCode, setBackgroundColor, backgroundColor } = useStore(
+  const {
+    errorHighlightedLines,
+    highlightedLines,
+    successHighlightedLines,
+    toggleHighlight,
+  } = useHighlightedLinesStore((state) => state)
+  const { formattedCode, setBackgroundColor, backgroundColor } = useCodeStore(
     (state) => state
   )
   const handleSetBackgroundColor = useCallback(
@@ -25,6 +32,10 @@ export const CodeBox = () => {
             style={{ backgroundColor }}
           >
             <CodeRenderer
+              errorHighlightedLines={errorHighlightedLines}
+              highlightedLines={highlightedLines}
+              successHighlightedLines={successHighlightedLines}
+              toggleHighlight={toggleHighlight}
               setBackgroundColor={handleSetBackgroundColor}
               node={formattedCode}
               lineNumber={lineNumber}
