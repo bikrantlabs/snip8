@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react"
-import { useControlsStore } from "@/store/use-controls-store"
+import { useSnippetStore } from "@/store/use-snippet-store"
 import {
   transformerNotationDiff,
   transformerNotationHighlight,
@@ -11,16 +11,15 @@ import { HastNode } from "@/types/hast-node"
 export const useRenderCode = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
-  const { controls } = useControlsStore((state) => state)
-  console.log(`🔥 render-code.ts:15 ~ controls ~`, controls)
+  const snippetOptions = useSnippetStore((state) => state.snippetOptions)
   const renderCode = useCallback(
     async (code: string): Promise<HastNode | null> => {
       setLoading(true)
       setError(null)
       try {
         const root = await codeToHast(code, {
-          lang: controls?.lang,
-          theme: controls.theme,
+          lang: snippetOptions?.lang,
+          theme: snippetOptions.theme,
           transformers: [
             transformerNotationDiff(),
             transformerNotationHighlight(),
@@ -36,12 +35,7 @@ export const useRenderCode = () => {
         setLoading(false)
       }
     },
-    [
-      controls.endHighlight,
-      controls.lang,
-      controls.startHighlight,
-      controls.theme,
-    ]
+    [snippetOptions.lang, snippetOptions.theme]
   )
 
   return { renderCode, loading, error }

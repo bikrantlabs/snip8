@@ -1,11 +1,9 @@
 "use client"
 
 import { useCallback, useState } from "react"
-import { useCodeStore } from "@/store/use-code-store"
 import { useHighlightedLinesStore } from "@/store/use-highlighted-lines-store"
+import { useSnippetStore } from "@/store/use-snippet-store"
 import { cn } from "@/lib/utils"
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
-import { Kbd } from "../ui/kdb"
 import { CodeRenderer } from "./code-renderer"
 
 export const CodeBox = () => {
@@ -16,18 +14,15 @@ export const CodeBox = () => {
     successHighlightedLines,
     toggleHighlight,
   } = useHighlightedLinesStore((state) => state)
-  const { formattedCode, setBackgroundColor, backgroundColor } = useCodeStore(
-    (state) => state
-  )
-  const handleSetBackgroundColor = useCallback(
-    (color: string) => {
-      setBackgroundColor(color)
-    },
-    [setBackgroundColor]
-  )
+  const setState = useSnippetStore((state) => state.setStates)
+  const formattedNode = useSnippetStore((state) => state.formattedNode)
+  const backgroundColor = useSnippetStore((state) => state.backgroundColor)
+  const handleSetBackgroundColor = useCallback((color: string) => {
+    setState({ backgroundColor: color })
+  }, [])
   return (
     <div>
-      {formattedCode ? (
+      {formattedNode ? (
         <>
           <div
             className="rounded-tl-lg rounded-tr-lg border-b p-2 font-mono text-sm text-secondary-foreground"
@@ -48,7 +43,7 @@ export const CodeBox = () => {
                 successHighlightedLines={successHighlightedLines}
                 toggleHighlight={toggleHighlight}
                 setBackgroundColor={handleSetBackgroundColor}
-                node={formattedCode}
+                node={formattedNode}
                 lineNumber={lineNumber}
               />
             </div>

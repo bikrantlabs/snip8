@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useControlsStore } from "@/store/use-controls-store"
+import { useSnippetStore } from "@/store/use-snippet-store"
 import { CheckIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 import { BundledLanguage } from "shiki"
 import { getLanguages } from "@/lib/get-languages"
@@ -23,7 +23,8 @@ import {
 
 const languages = getLanguages()
 export function LanguageSelector() {
-  const { controls, setControls } = useControlsStore((state) => state)
+  const setState = useSnippetStore((state) => state.setStates)
+  const snippetOptions = useSnippetStore((state) => state.snippetOptions)
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState<BundledLanguage>("javascript")
   return (
@@ -33,7 +34,7 @@ export function LanguageSelector() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="justify-between"
+          className="w-[200px] justify-between"
         >
           {value
             ? languages.find((language) => language.value === value)?.label
@@ -54,9 +55,10 @@ export function LanguageSelector() {
             <CommandGroup>
               <CommandItem
                 value={"javascript"}
-                onSelect={(currentValue) => {
-                  const typedValue = currentValue as unknown as BundledLanguage
-                  setControls({ ...controls, lang: "javascript" })
+                onSelect={() => {
+                  setState({
+                    snippetOptions: { ...snippetOptions, lang: "javascript" },
+                  })
                   setValue("javascript")
                   setOpen(false)
                 }}
@@ -71,7 +73,9 @@ export function LanguageSelector() {
                   onSelect={(currentValue) => {
                     const typedValue =
                       currentValue as unknown as BundledLanguage
-                    setControls({ ...controls, lang: typedValue })
+                    setState({
+                      snippetOptions: { ...snippetOptions, lang: typedValue },
+                    })
                     setValue(typedValue === value ? "javascript" : typedValue)
                     setOpen(false)
                   }}

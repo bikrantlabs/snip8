@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useControlsStore } from "@/store/use-controls-store"
+import { useSnippetStore } from "@/store/use-snippet-store"
 import { CheckIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 import { BundledTheme } from "shiki"
 import { getThemes } from "@/lib/get-themes"
@@ -23,7 +23,8 @@ import {
 
 const themes = getThemes()
 export function ThemeSelector() {
-  const { controls, setControls } = useControlsStore((state) => state)
+  const setState = useSnippetStore((state) => state.setStates)
+  const snippetOptions = useSnippetStore((state) => state.snippetOptions)
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState<BundledTheme>("vesper")
   return (
@@ -33,7 +34,7 @@ export function ThemeSelector() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="justify-between"
+          className="w-[200px] justify-between"
         >
           {value
             ? themes.find((theme) => theme.value === value)?.label
@@ -54,9 +55,11 @@ export function ThemeSelector() {
             <CommandGroup>
               <CommandItem
                 value={"vesper"}
-                onSelect={(currentValue) => {
-                  const typedValue = currentValue as unknown as BundledTheme
-                  setControls({ ...controls, theme: "vesper" })
+                onSelect={() => {
+                  // setControls({ ...controls, theme: "vesper" })
+                  setState({
+                    snippetOptions: { ...snippetOptions, theme: "vesper" },
+                  })
                   setValue("vesper")
                   setOpen(false)
                 }}
@@ -70,7 +73,9 @@ export function ThemeSelector() {
                   value={theme.value}
                   onSelect={(currentValue) => {
                     const typedValue = currentValue as unknown as BundledTheme
-                    setControls({ ...controls, theme: typedValue })
+                    setState({
+                      snippetOptions: { ...snippetOptions, theme: typedValue },
+                    })
                     setValue(typedValue === value ? "vesper" : typedValue)
                     setOpen(false)
                   }}

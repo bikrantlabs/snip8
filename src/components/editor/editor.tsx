@@ -1,12 +1,10 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { useCodeStore } from "@/store/use-code-store"
-import { useControlsStore } from "@/store/use-controls-store"
+import { useSnippetStore } from "@/store/use-snippet-store"
 import { PlayIcon } from "@radix-ui/react-icons"
 import { formatCode } from "@/lib/format-code"
 import { useRenderCode } from "@/lib/render-code"
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
 import { Button } from "../ui/button"
 import { Kbd } from "../ui/kdb"
 import { Textarea } from "../ui/textarea"
@@ -23,30 +21,26 @@ interface CodeRendererProps {
   lineNumber: number
 }
 `)
-  const { setFormattedCode } = useCodeStore((state) => state)
-  const { controls } = useControlsStore((state) => state)
+  const setState = useSnippetStore((state) => state.setStates)
+  const snippetOptions = useSnippetStore((state) => state.snippetOptions)
   const { error, renderCode } = useRenderCode()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const formatAndRenderCode = async () => {
-    const response = await formatCode(initialCode)
-    if (!response.success) {
-      // setError(response.errorMessage || "An error occurred")
+    if (initialCode) {
+      const response = await formatCode(initialCode)
+      setState({
+        snippetContent: response.formattedCode || initialCode,
+      })
+      const node = await renderCode(response.formattedCode || initialCode)
+      if (node) setState({ formattedNode: node })
     }
-
-    const node = await renderCode(response.formattedCode || initialCode)
-    if (node) setFormattedCode(node)
   }
-  console.log(`🔥 editor.tsx:37 ~ Data: ~`)
+
   useEffect(() => {
     formatAndRenderCode()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    controls.endHighlight,
-    controls.lang,
-    controls.startHighlight,
-    controls.theme,
-  ])
+  }, [snippetOptions.lang, snippetOptions.theme])
   return (
     <div className="flex h-full flex-col gap-2">
       <div className="relative h-full">
