@@ -1,21 +1,36 @@
-import { InfoCircledIcon } from "@radix-ui/react-icons"
+"use client"
+
+import { useDownloadImageStore } from "@/store/download-image-store"
+import { DownloadIcon, InfoCircledIcon } from "@radix-ui/react-icons"
+import { Button } from "../ui/button"
 import { Kbd } from "../ui/kdb"
-import { Label } from "../ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { LanguageSelector } from "./language-selector"
 import { ThemeSelector } from "./theme-selector"
 
 export const Controls = () => {
+  const downloadCodeImage = useDownloadImageStore(
+    (state) => state.downloadCodeImage
+  )
+  const isDownloading = useDownloadImageStore((state) => state.isDownloading)
   return (
     <div className="w-full rounded">
       <div className="flex items-center gap-4 p-2">
         <div className="space-y-1">
-          <Label>Language:</Label>
           <LanguageSelector />
         </div>
         <div className="space-y-1">
-          <Label>Theme:</Label>
           <ThemeSelector />
+        </div>
+        <div className="space-y-1">
+          <Button
+            variant="outline"
+            disabled={isDownloading}
+            size="icon"
+            onClick={downloadCodeImage}
+          >
+            <DownloadIcon />
+          </Button>
         </div>
         <Popover>
           <PopoverTrigger>

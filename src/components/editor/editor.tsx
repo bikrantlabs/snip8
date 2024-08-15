@@ -56,7 +56,7 @@ interface CodeRendererProps {
             }
           }}
           placeholder="Type your code here..."
-          className="h-full resize-none font-mono"
+          className="h-full min-h-[80vh] resize-none font-mono"
         />
         <Button
           className="absolute bottom-0 right-0 mb-2 mr-4 shadow-lg"

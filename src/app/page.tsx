@@ -15,7 +15,6 @@ export default function Home() {
         </div> */}
         <div className="col-span-6">
           {/* <Editor /> */}
-          <Controls />
           <SnippetBox />
         </div>
       </div>

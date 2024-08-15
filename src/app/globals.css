@@ -85,6 +85,10 @@
     display: inline-block;
     background-color: hsla(26, 100%, 45%, 0.3);
   }
+  /* Display none to last of type line */
+  .line:last-of-type {
+    display: none;
+  }
   .line.success-highlighted {
     display: inline-block;
     background-color: hsla(126, 100%, 45%, 0.3);

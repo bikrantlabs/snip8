@@ -56,7 +56,6 @@ export function ThemeSelector() {
               <CommandItem
                 value={"vesper"}
                 onSelect={() => {
-                  // setControls({ ...controls, theme: "vesper" })
                   setState({
                     snippetOptions: { ...snippetOptions, theme: "vesper" },
                   })
