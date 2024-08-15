@@ -28,36 +28,46 @@ export const CodeBox = () => {
   return (
     <div>
       {formattedCode ? (
-        <div className="flex h-full flex-col gap-2">
+        <>
           <div
-            className={cn("h-full max-h-[80vh] overflow-auto rounded-lg")}
+            className="rounded-tl-lg rounded-tr-lg border-b p-2 font-mono text-sm text-secondary-foreground"
             style={{ backgroundColor }}
           >
-            <CodeRenderer
-              errorHighlightedLines={errorHighlightedLines}
-              highlightedLines={highlightedLines}
-              successHighlightedLines={successHighlightedLines}
-              toggleHighlight={toggleHighlight}
-              setBackgroundColor={handleSetBackgroundColor}
-              node={formattedCode}
-              lineNumber={lineNumber}
-            />
+            src/code-box.tsx
           </div>
-          <Alert>
-            <AlertTitle>Click on line numbers for highlighting</AlertTitle>
-            <AlertDescription>
-              <div className="space-y-2">
-                <p className="text-sm">
-                  <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for success highlighting
-                </p>
-                <p className="text-sm">
-                  <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for
-                  error highlighting
-                </p>
-              </div>
-            </AlertDescription>
-          </Alert>
-        </div>
+          <div className="flex h-full flex-col gap-2">
+            <div
+              className={cn(
+                "h-full max-h-[80vh] overflow-auto rounded-bl-lg rounded-br-lg"
+              )}
+              style={{ backgroundColor }}
+            >
+              <CodeRenderer
+                errorHighlightedLines={errorHighlightedLines}
+                highlightedLines={highlightedLines}
+                successHighlightedLines={successHighlightedLines}
+                toggleHighlight={toggleHighlight}
+                setBackgroundColor={handleSetBackgroundColor}
+                node={formattedCode}
+                lineNumber={lineNumber}
+              />
+            </div>
+            <Alert>
+              <AlertTitle>Click on line numbers for highlighting</AlertTitle>
+              <AlertDescription>
+                <div className="space-y-2">
+                  <p className="text-sm">
+                    <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for success highlighting
+                  </p>
+                  <p className="text-sm">
+                    <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for
+                    error highlighting
+                  </p>
+                </div>
+              </AlertDescription>
+            </Alert>
+          </div>
+        </>
       ) : (
         <div className="w-full rounded border border-black shadow"></div>
       )}
