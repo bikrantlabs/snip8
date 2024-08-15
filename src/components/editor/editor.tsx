@@ -6,6 +6,7 @@ import { useControlsStore } from "@/store/use-controls-store"
 import { PlayIcon } from "@radix-ui/react-icons"
 import { formatCode } from "@/lib/format-code"
 import { useRenderCode } from "@/lib/render-code"
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert"
 import { Button } from "../ui/button"
 import { Kbd } from "../ui/kdb"
 import { Textarea } from "../ui/textarea"
@@ -47,7 +48,7 @@ interface CodeRendererProps {
     controls.theme,
   ])
   return (
-    <div className="h-full">
+    <div className="flex h-full flex-col gap-2">
       <div className="relative h-full">
         <Textarea
           ref={textareaRef}
@@ -73,11 +74,18 @@ interface CodeRendererProps {
           <PlayIcon className="h-4 w-4" />
         </Button>
       </div>
-      <p className="mt-4 text-sm">
-        Press <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd> or hit play button to format
-        and highlight the code.
+      <p className="text-sm">
+        Press <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd> format and highlight the code.
       </p>
-      {error && <p className="text-sm text-red-500">{error.message}</p>}
+      <Alert>
+        <AlertDescription>
+          Code formatting is done using prettier so it cannot format code for
+          all languages.
+        </AlertDescription>
+      </Alert>
+      {error && (
+        <p className="text-sm text-destructive-foreground">{error.message}</p>
+      )}
     </div>
   )
 }

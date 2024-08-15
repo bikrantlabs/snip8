@@ -59,7 +59,7 @@ export const CodeRenderer: React.FC<CodeRendererProps> = ({
     }
 
     if (node.tagName === "pre") {
-      preTagStyles = "p-2 rounded overflow-x-auto shadow"
+      preTagStyles = "p-2 rounded-lg overflow-x-auto shadow"
     }
 
     return (
