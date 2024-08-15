@@ -1,6 +1,6 @@
 import { Controls } from "@/components/controls/controls"
-import { CodeBox } from "@/components/editor/code-box"
 import { Editor } from "@/components/editor/editor"
+import { SnippetBox } from "@/components/snippet/snippet-box"
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
         <div className="col-span-6">
           {/* <Editor /> */}
           <Controls />
-          <CodeBox />
+          <SnippetBox />
         </div>
       </div>
     </main>

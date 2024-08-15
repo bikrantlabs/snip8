@@ -5,8 +5,9 @@ import { useHighlightedLinesStore } from "@/store/use-highlighted-lines-store"
 import { useSnippetStore } from "@/store/use-snippet-store"
 import { cn } from "@/lib/utils"
 import { CodeRenderer } from "./code-renderer"
+import { SnippetBoxHeader } from "./snippet-box-header"
 
-export const CodeBox = () => {
+export const SnippetBox = () => {
   const [lineNumber] = useState<number>(1)
   const {
     errorHighlightedLines,
@@ -24,12 +25,7 @@ export const CodeBox = () => {
     <div>
       {formattedNode ? (
         <>
-          <div
-            className="rounded-tl-lg rounded-tr-lg border-b p-2 font-mono text-sm text-secondary-foreground"
-            style={{ backgroundColor }}
-          >
-            src/code-box.tsx
-          </div>
+          <SnippetBoxHeader />
           <div className="flex h-full flex-col gap-2">
             <div
               className={cn(
