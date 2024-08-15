@@ -77,12 +77,6 @@ interface CodeRendererProps {
       <p className="text-sm">
         Press <Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd> format and highlight the code.
       </p>
-      <Alert>
-        <AlertDescription>
-          Code formatting is done using prettier so it cannot format code for
-          all languages.
-        </AlertDescription>
-      </Alert>
       {error && (
         <p className="text-sm text-destructive-foreground">{error.message}</p>
       )}

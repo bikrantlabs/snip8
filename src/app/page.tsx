@@ -7,14 +7,15 @@ export default function Home() {
     <main className="min-h-screen">
       <div className="grid max-h-[80vh] grid-cols-12 gap-4 p-8">
         {/* <Textarea content={code} onChange={(e) => setCode(e.target.value)} /> */}
-        <div className="col-span-5">
+        <div className="col-span-6">
           <Editor />
         </div>
-        <div className="col-span-2">
+        {/* <div className="col-span-2">
           <Controls />
-        </div>
-        <div className="col-span-5">
+        </div> */}
+        <div className="col-span-6">
           {/* <Editor /> */}
+          <Controls />
           <CodeBox />
         </div>
       </div>

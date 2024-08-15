@@ -52,20 +52,6 @@ export const CodeBox = () => {
                 lineNumber={lineNumber}
               />
             </div>
-            <Alert>
-              <AlertTitle>Click on line numbers for highlighting</AlertTitle>
-              <AlertDescription>
-                <div className="space-y-2">
-                  <p className="text-sm">
-                    <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for success highlighting
-                  </p>
-                  <p className="text-sm">
-                    <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for
-                    error highlighting
-                  </p>
-                </div>
-              </AlertDescription>
-            </Alert>
           </div>
         </>
       ) : (

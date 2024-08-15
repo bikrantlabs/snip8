@@ -33,7 +33,7 @@ export function ThemeSelector() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="justify-between"
         >
           {value
             ? themes.find((theme) => theme.value === value)?.label
