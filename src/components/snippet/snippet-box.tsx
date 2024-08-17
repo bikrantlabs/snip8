@@ -7,6 +7,7 @@ import { useSnippetStore } from "@/store/use-snippet-store"
 import { cn } from "@/lib/utils"
 import { CodeRenderer } from "./code-renderer"
 import { SnippetBoxHeader } from "./snippet-box-header"
+import { SnippetControlsHeader } from "./snippet-controls-header"
 
 export const SnippetBox = () => {
   const setState = useSnippetStore((state) => state.setStates)
@@ -33,27 +34,32 @@ export const SnippetBox = () => {
   return (
     <div>
       {formattedNode ? (
-        <div className="h-full max-h-[80vh] overflow-auto">
-          <SnippetBoxHeader />
-          {/* TODO: Implement download code image UI */}
-          <div className="flex h-full flex-col gap-2">
-            <div
-              ref={codeBoxRef}
-              className={cn(
-                "h-full overflow-auto",
-                !isDownloading ? "rounded-bl-lg rounded-br-lg" : "rounded-lg"
-              )}
-              style={{ backgroundColor }}
-            >
-              <CodeRenderer
-                errorHighlightedLines={errorHighlightedLines}
-                highlightedLines={highlightedLines}
-                successHighlightedLines={successHighlightedLines}
-                toggleHighlight={toggleHighlight}
-                setBackgroundColor={handleSetBackgroundColor}
-                node={formattedNode}
-                lineNumber={lineNumber}
-              />
+        <div className="relative h-full max-h-[80vh] overflow-auto">
+          <div className="sticky inset-0 top-0 mb-2">
+            <SnippetControlsHeader />
+          </div>
+          {/* <div className="mb-1 h-16"></div> */}
+          <div ref={codeBoxRef}>
+            <SnippetBoxHeader />
+
+            <div className="flex h-full flex-col gap-2">
+              <div
+                className={cn(
+                  "h-full",
+                  !isDownloading ? "rounded-bl-lg rounded-br-lg" : "rounded-lg"
+                )}
+                style={{ backgroundColor }}
+              >
+                <CodeRenderer
+                  errorHighlightedLines={errorHighlightedLines}
+                  highlightedLines={highlightedLines}
+                  successHighlightedLines={successHighlightedLines}
+                  toggleHighlight={toggleHighlight}
+                  setBackgroundColor={handleSetBackgroundColor}
+                  node={formattedNode}
+                  lineNumber={lineNumber}
+                />
+              </div>
             </div>
           </div>
         </div>

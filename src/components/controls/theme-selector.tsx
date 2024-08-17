@@ -4,7 +4,7 @@ import * as React from "react"
 import { useSnippetStore } from "@/store/use-snippet-store"
 import { CheckIcon, ChevronDownIcon } from "@radix-ui/react-icons"
 import { BundledTheme } from "shiki"
-import { getThemes } from "@/lib/get-themes"
+import { themeData } from "@/lib/get-themes"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -20,8 +20,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { ThemeControlPreview } from "./theme-control-preview"
 
-const themes = getThemes()
 export function ThemeSelector() {
   const setState = useSnippetStore((state) => state.setStates)
   const snippetOptions = useSnippetStore((state) => state.snippetOptions)
@@ -34,11 +34,21 @@ export function ThemeSelector() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="justify-between"
         >
-          {value
-            ? themes.find((theme) => theme.value === value)?.label
-            : "Select theme..."}
+          {value ? (
+            <>
+              {" "}
+              <ThemeControlPreview
+                accentColor={
+                  themeData.find((theme) => theme.value === value)
+                    ?.accentColor as string
+                }
+              />
+            </>
+          ) : (
+            "Select theme..."
+          )}
           <ChevronDownIcon
             className={cn(
               "ml-2 h-4 w-4 shrink-0 opacity-50 transition",
@@ -62,11 +72,11 @@ export function ThemeSelector() {
                   setValue("vesper")
                   setOpen(false)
                 }}
+                className={cn(value === "vesper" ? "bg-accent" : "bg-none")}
               >
-                <CheckIcon className={cn("mr-2 h-4 w-4", "opacity-0")} />
                 Default
               </CommandItem>
-              {themes.map((theme) => (
+              {themeData.map((theme) => (
                 <CommandItem
                   key={theme.value}
                   value={theme.value}
@@ -78,14 +88,10 @@ export function ThemeSelector() {
                     setValue(typedValue === value ? "vesper" : typedValue)
                     setOpen(false)
                   }}
+                  className={cn(value === theme.value ? "bg-accent" : "")}
                 >
-                  <CheckIcon
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === theme.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {theme.label}
+                  <ThemeControlPreview accentColor={theme.accentColor} />
+                  <span className="text-sm"> {theme.label}</span>
                 </CommandItem>
               ))}
             </CommandGroup>

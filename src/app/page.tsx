@@ -1,4 +1,3 @@
-import { Controls } from "@/components/controls/controls"
 import { Editor } from "@/components/editor/editor"
 import { SnippetBox } from "@/components/snippet/snippet-box"
 
