@@ -7,7 +7,6 @@ import { useSnippetStore } from "@/store/use-snippet-store"
 import { cn } from "@/lib/utils"
 import { CodeRenderer } from "./code-renderer"
 import { SnippetBoxHeader } from "./snippet-box-header"
-import { SnippetControlsHeader } from "./snippet-controls-header"
 
 export const SnippetBox = () => {
   const setState = useSnippetStore((state) => state.setStates)
@@ -35,10 +34,6 @@ export const SnippetBox = () => {
     <div>
       {formattedNode ? (
         <div className="relative h-full max-h-[80vh] overflow-auto">
-          <div className="sticky inset-0 top-0 mb-2">
-            <SnippetControlsHeader />
-          </div>
-          {/* <div className="mb-1 h-16"></div> */}
           <div ref={codeBoxRef}>
             <SnippetBoxHeader />
 

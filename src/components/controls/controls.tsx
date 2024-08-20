@@ -1,20 +1,11 @@
-"use client"
-
-import { useDownloadImageStore } from "@/store/download-image-store"
-import { DownloadIcon, InfoCircledIcon } from "@radix-ui/react-icons"
-import { Button } from "../ui/button"
-import { Kbd } from "../ui/kdb"
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { AboutSnippetBtn } from "./about-snippet-btn"
+import { CodeImageDownloadButton } from "./image-download-btn"
 import { LanguageSelector } from "./language-selector"
 import { ThemeSelector } from "./theme-selector"
 
 export const Controls = () => {
-  const downloadCodeImage = useDownloadImageStore(
-    (state) => state.downloadCodeImage
-  )
-  const isDownloading = useDownloadImageStore((state) => state.isDownloading)
   return (
-    <div className="w-full rounded">
+    <div className="absolute bottom-0 left-1/2 w-[30rem] -translate-x-1/2 rounded rounded-bl-none rounded-br-none border border-b-0">
       <div className="flex items-center gap-4 p-2">
         <div className="space-y-1">
           <LanguageSelector />
@@ -23,34 +14,9 @@ export const Controls = () => {
           <ThemeSelector />
         </div>
         <div className="space-y-1">
-          <Button
-            variant="outline"
-            disabled={isDownloading}
-            size="icon"
-            onClick={downloadCodeImage}
-          >
-            <DownloadIcon />
-          </Button>
+          <CodeImageDownloadButton />
         </div>
-        <Popover>
-          <PopoverTrigger>
-            <InfoCircledIcon />
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="space-y-4">
-              <p className="text-sm font-medium">
-                Click on line numbers for highlighting
-              </p>
-              <p className="text-sm">
-                <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for success highlighting
-              </p>
-              <p className="text-sm">
-                <Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>Click</Kbd> for error
-                highlighting
-              </p>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <AboutSnippetBtn />
       </div>
     </div>
   )
