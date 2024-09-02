@@ -4,7 +4,7 @@ import * as prettierPluginEstree from "prettier/plugins/estree.js"
 import * as prettierPluginTypescript from "prettier/plugins/typescript.js"
 import * as prettier from "prettier/standalone"
 
-interface FormatCodeReturnType {
+export interface FormatCodeReturnType {
   success: boolean
   formattedCode: string | null
   errorMessage?: string

@@ -18,13 +18,18 @@ type SnippetStoreState = {
    */
   backgroundColor: string
   /**
-   * `formattedNode` is the Hast representation of the `snippetContent`
+   * `hast` is the Hast representation of the `snippetContent`, maybe either formatted or unformatted
    */
-  formattedNode?: HastNode
+  hast?: HastNode
   /**
    * `snippetOptions` are the options that should be used to render the code
    */
   snippetOptions: RenderCodeOptions
+  /**
+   * set `enableFormatting` to `true` for fromatting with prettier
+   * @default true
+   */
+  enableFormatting: boolean
 }
 type SnippetStoreActions = {
   setStates: (states: Partial<SnippetStoreState>) => void
@@ -37,10 +42,10 @@ export const useSnippetStore = create<
   SnippetStoreState & SnippetStoreActions
 >()((set) => {
   return {
-    snippetTitle: undefined,
     backgroundColor: "#101010", // Default background color of vesper theme
     snippetOptions: defaultOptions,
     snippetContent: "",
+    enableFormatting: true,
     setStates: (updates) => set((state) => ({ ...state, ...updates })),
   }
 })

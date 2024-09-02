@@ -11,7 +11,7 @@ import { SnippetBoxHeader } from "./snippet-box-header"
 export const SnippetBox = () => {
   const setState = useSnippetStore((state) => state.setStates)
   const isDownloading = useDownloadImageStore((state) => state.isDownloading)
-  const formattedNode = useSnippetStore((state) => state.formattedNode)
+  const hast = useSnippetStore((state) => state.hast)
   const backgroundColor = useSnippetStore((state) => state.backgroundColor)
   const setElementRef = useDownloadImageStore((state) => state.setElementRef)
   const [lineNumber] = useState<number>(1)
@@ -30,9 +30,10 @@ export const SnippetBox = () => {
   useEffect(() => {
     setElementRef(codeBoxRef)
   }, [])
+  console.log(`🔥 snippet-box.tsx:33 ~ From snippet box ~`, hast)
   return (
     <div>
-      {formattedNode ? (
+      {hast ? (
         <div className="relative h-full max-h-[80vh] overflow-auto">
           <div ref={codeBoxRef}>
             <SnippetBoxHeader />
@@ -51,7 +52,7 @@ export const SnippetBox = () => {
                   successHighlightedLines={successHighlightedLines}
                   toggleHighlight={toggleHighlight}
                   setBackgroundColor={handleSetBackgroundColor}
-                  node={formattedNode}
+                  node={hast}
                   lineNumber={lineNumber}
                 />
               </div>
